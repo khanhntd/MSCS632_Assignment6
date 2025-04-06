@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sync"
 	"time"
 )
@@ -39,6 +40,14 @@ func worker(id int, queue *SharedQueue, resultList *[]string, mutex *sync.Mutex,
 }
 
 func main() {
+	// Defer to exit peacefully
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Detect issues in application. Please try again")
+			os.Exit(1)
+		}
+	}()
+
 	queue := NewSharedQueue(10)
 	var resultList []string
 	var wg sync.WaitGroup
