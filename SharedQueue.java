@@ -1,10 +1,10 @@
 import java.util.*;
 import java.util.concurrent.*;
 
-class SharedQueue {
+class SharedQueueMain {
     private BlockingQueue<String> taskQueue;
 
-    public SharedQueue(int capacity) {
+    public SharedQueueMain(int capacity) {
         this.taskQueue = new LinkedBlockingQueue<>(capacity);
     }
 
@@ -19,10 +19,10 @@ class SharedQueue {
 
 class WorkerThread extends Thread {
     private static final String POISON_PILL = "POISON";
-    private SharedQueue queue;
+    private SharedQueueMain queue;
     private List<String> resultList;
 
-    public WorkerThread(SharedQueue queue, List<String> resultList) {
+    public WorkerThread(SharedQueueMain queue, List<String> resultList) {
         this.queue = queue;
         this.resultList = resultList;
     }
@@ -57,10 +57,10 @@ class WorkerThread extends Thread {
     }
 }
 
-public class RideSharingSystem {
+public class SharedQueue {
     public static void main(String[] args) throws InterruptedException {
         int numWorkers = 4;
-        SharedQueue queue = new SharedQueue(20);
+        SharedQueueMain queue = new SharedQueueMain(20);
         List<String> resultList = Collections.synchronizedList(new ArrayList<>());
 
         // Add 10 tasks
